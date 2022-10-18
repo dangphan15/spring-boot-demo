@@ -2,7 +2,7 @@
 
 ## Status
 
-** In Progressing
+- In Progressing
 
 ## Description
 - This is a mini project about api for Spring Boot
@@ -11,9 +11,9 @@
 
 ## Technology
 
-** SpringBoot 2.7.4, Spring Data JPA, JPA Auditing, Pageable
+- SpringBoot 2.7.4, Spring Data JPA, JPA Auditing, Pageable
 
-** Tools: Eclipse IDE, SQL Server 
+- Tools: Eclipse IDE, SQL Server 
 
 #### Connect me via minhdang12345c@gmail.com
 
