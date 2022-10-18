@@ -4,6 +4,11 @@
 
 ** In Progressing
 
+## Description
+- This is a mini project about api for Spring Boot
+- run 'SpringBootNews.sql' for database
+- Change application.properties for Database connection
+
 ## Technology
 
 ** SpringBoot 2.7.4, Spring Data JPA, JPA Auditing, Pageable
