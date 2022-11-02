@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>Load News</h2>
+
+	<ul>
+		<li th:each="news : ${newsList}">
+		<span th:text="*{news.getTitle()}"></span> : <span th:text="*{news.getContent()}"></span></li>
+		<a th:href="@{/logout}">Log out</a>
+	</ul>
+</body>
+</html>

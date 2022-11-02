@@ -37,4 +37,13 @@ public class RoleEntity extends BaseEntity {
 		this.name = name;
 	}
 
+	public List<UserEntity> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<UserEntity> users) {
+		this.users = users;
+	}
+
+	
 }
