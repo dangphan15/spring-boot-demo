@@ -27,7 +27,7 @@ public class TestController {
 		return "homepage";
 	}
 
-    @GetMapping("/user")
+    @GetMapping("/test")
     public String userEndpoint() {
         return "user";
     }

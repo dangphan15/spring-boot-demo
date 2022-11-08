@@ -10,7 +10,6 @@ public class UserDTO extends AbstractDTO<UserDTO> {
 	private String fullName;
 	private Integer status;
 	private List<String> roleNames = new ArrayList<String>();
-	
 	private String token;
 	
 	public UserDTO() {

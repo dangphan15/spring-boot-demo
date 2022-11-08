@@ -1,24 +1,22 @@
 package com.dangphan.springboot.api;
 
+import com.dangphan.springboot.config.JWTUtils;
+import com.dangphan.springboot.dto.UserDTO;
+import com.dangphan.springboot.service.impl.MyUserDetailsService;
+import com.dangphan.springboot.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.dangphan.springboot.config.JWTUtils;
-import com.dangphan.springboot.dto.NewDTO;
-import com.dangphan.springboot.dto.UserDTO;
-import com.dangphan.springboot.service.impl.MyUserDetailsService;
-import com.dangphan.springboot.service.impl.UserService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @RestController
+@RequestMapping("api/user")
 public class UserAPI {
 
 	@Autowired
@@ -34,22 +32,44 @@ public class UserAPI {
 	private JWTUtils jwtUtils;
 
 	@PostMapping("/login")
-	public ResponseEntity<UserDTO> login(@RequestBody UserDTO dto) throws Exception {
+	public ResponseEntity<UserDTO> login(@RequestBody UserDTO dto, HttpServletRequest request) throws Exception {
 		try {
 			authenticationManager
 					.authenticate(new UsernamePasswordAuthenticationToken(dto.getUserName(), dto.getPassword()));
 		} catch (BadCredentialsException ex) {
 			throw new Exception("Incorrect username or password", ex);
 		}
+		HttpSession session= request.getSession();
 		final UserDetails userDetails = myUserDetailsService.loadUserByUsername(dto.getUserName());
 		final String jwt = jwtUtils.generateToken(userDetails);
 		UserDTO tmpDTO = userService.findByUsername(dto.getUserName());
-		return ResponseEntity.ok(new UserDTO(jwt, tmpDTO.getUserName()));
+		tmpDTO.setToken(jwt);
+		session.setAttribute("user",tmpDTO);
+		return ResponseEntity.ok(tmpDTO);
+	}
+	@PostMapping("")
+	public  UserDTO createUser(@RequestBody UserDTO userDTO){
+		return userService.save(userDTO);
 	}
 
-	@GetMapping(value = "/username/{username}")
-	public UserDetails getUser(@PathVariable("username") String username) {
-		return myUserDetailsService.loadUserByUsername(username);
+	@PutMapping("/{id}")
+	public  UserDTO updateUser(@RequestBody UserDTO userDTO, @PathVariable("id") long id){
+		userDTO.setId(id);
+		return userService.save(userDTO);
+	}
+	@GetMapping(value = "/{username}")
+	public UserDTO getUser(@PathVariable("username") String username) {
+
+		return userService.findByUsername(username);
+
+	}
+
+	@GetMapping("")
+	public UserDTO getSession(HttpServletRequest request) {
+
+		HttpSession session= request.getSession();
+		return (UserDTO) session.getAttribute("user");
+
 	}
 
 }

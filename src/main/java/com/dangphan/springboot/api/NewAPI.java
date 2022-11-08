@@ -5,27 +5,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.dangphan.springboot.api.output.NewOutput;
 import com.dangphan.springboot.dto.NewDTO;
 import com.dangphan.springboot.service.INewService;
 
 @RestController
-
+@RequestMapping("/api/news")
 public class NewAPI {
 
 	@Autowired
 	private INewService newService;
 
-	@GetMapping(value = "/new")
+	@GetMapping(value = "")
 	public NewOutput showNew(@RequestParam("page") int page, @RequestParam("limit") int limit) {
 		NewOutput result = new NewOutput();
 		result.setPage(page);
@@ -35,28 +28,26 @@ public class NewAPI {
 		return result;
 	}
 
-	@GetMapping("/new/{id}")
+	@GetMapping("/{id}")
 	public NewDTO getNew(@PathVariable("id") long id) {
 
 		return newService.find(id);
 	}
 
-	@GetMapping("/new/all")
+	@GetMapping("/all")
 	public List<NewDTO> getAll() {
 
 		return newService.findAll();
 	}
 
-	@PostMapping("/new")
-
+	@PostMapping("")
 	public NewDTO createNew(@RequestBody NewDTO model) {
 
 		return newService.save(model);
 
 	}
 
-	@PutMapping("/new/{id}")
-
+	@PutMapping("/{id}")
 	public NewDTO updateNew(@RequestBody NewDTO model, @PathVariable("id") long id) {
 
 		model.setId(id);
@@ -64,8 +55,7 @@ public class NewAPI {
 
 	}
 
-	@DeleteMapping("/new")
-
+	@DeleteMapping("")
 	public void deleteNew(@RequestBody long[] ids) {
 		newService.delete(ids);
 	}
