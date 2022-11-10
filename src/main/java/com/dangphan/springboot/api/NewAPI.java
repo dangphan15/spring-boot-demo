@@ -20,6 +20,7 @@ public class NewAPI {
 
 	@GetMapping(value = "")
 	public NewOutput showNew(@RequestParam("page") int page, @RequestParam("limit") int limit) {
+
 		NewOutput result = new NewOutput();
 		result.setPage(page);
 		Pageable pageable = PageRequest.of(page - 1, limit);
@@ -38,6 +39,7 @@ public class NewAPI {
 	public List<NewDTO> getAll() {
 
 		return newService.findAll();
+
 	}
 
 	@PostMapping("")
@@ -57,7 +59,9 @@ public class NewAPI {
 
 	@DeleteMapping("")
 	public void deleteNew(@RequestBody long[] ids) {
+
 		newService.delete(ids);
+
 	}
 
 }
